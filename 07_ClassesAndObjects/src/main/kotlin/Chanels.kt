@@ -14,8 +14,6 @@ object Chanels {
         9 to "Домашний"
     )
 
-
-
     //перемешанные каналы
     fun getRandomChanels() : Map<Int, String> {
         val key = this.chanel.keys.toList()

@@ -1,96 +1,45 @@
 import kotlin.random.Random
 
 fun main() {
-
-    var n : Int
-
+    var n: Int
     do {
-        print("Введите колличество тестов : ")
+        print("Введите количество тестов : ")
         n = readLine()?.toIntOrNull() ?: 0
-
         if (n <= 0) println("Попробуйте еще раз!")
-
     } while (n <= 0)
 
-
-    val tv = TV("Panasonic" to "ma32", 106.0)
-
-    val tvSecond = TV("Samsung" to "opal", 140.5)
-
-    for (i : Int in 1..n) {
+    val tv = TV.create("Xiaomi", "Redmi", 41.0)
+    val tvSecond = TV("Samsung" to "opal", 140.5) // для теста вызовем вторичный конструктор
+    val listTV = listOf(tv, tvSecond)
+    // тесты
+    for (i: Int in 1..n) {
         println("\nТЕСТ - > $i :")
+        listTV.forEach {
+            print(it)
+            when (Random.nextInt(1, 8)) {
+                // кнопка включения
+                1 -> it.powerOnOrOff()
 
-        when (Random.nextInt(1, 8)) {
+                // кнопка вывода
+                2 -> it.printChanels()
 
-            1 -> {
-                printInfo(tv)
-                tv.powerOnOrOff()
-                Thread.sleep(2000)
+                // кнопка выбора канала
+                3 -> it.chanelSwitch((0..10).random())
 
-                printInfo(tvSecond)
-                tvSecond.powerOnOrOff()
-                Thread.sleep(2000)
+                // кнопка переключения назад
+                4 -> it.chanelDawn()
+
+                // кнопка переключения вперед
+                5 -> it.chanelUp()
+
+                // кнопка понижения громкости
+                6 -> it.volumeDawn((1..25).random())
+
+                // кнопка увеличения громкости
+                7 -> it.volumeUp((1..25).random())
             }
-            2 -> {
-                printInfo(tv)
-                tv.printChanels()
-                Thread.sleep(2000)
-
-                printInfo(tvSecond)
-                tvSecond.printChanels()
-                Thread.sleep(2000)
-            }
-            3 -> {
-                printInfo(tv)
-                tv.chanelSwitch(Random.nextInt(0, 10))
-                Thread.sleep(2000)
-
-                printInfo(tvSecond)
-                tvSecond.chanelSwitch(Random.nextInt(0, 10))
-                Thread.sleep(2000)
-            }
-            4 -> {
-                printInfo(tv)
-                tv.volumeDawn(Random.nextInt(0, 25))
-                Thread.sleep(2000)
-
-                printInfo(tvSecond)
-                tvSecond.volumeDawn(Random.nextInt(0, 25))
-                Thread.sleep(2000)
-            }
-            5 -> {
-                printInfo(tv)
-                tv.volumeUp(Random.nextInt(0, 25))
-                Thread.sleep(2000)
-
-                printInfo(tvSecond)
-                tvSecond.volumeUp(Random.nextInt(0, 25))
-                Thread.sleep(2000)
-            }
-            6 -> {
-                printInfo(tv)
-                tv.chanelUp()
-                Thread.sleep(2000)
-
-                printInfo(tvSecond)
-                tvSecond.chanelUp()
-                Thread.sleep(2000)
-            }
-            7 -> {
-                printInfo(tv)
-                tv.chanelDawn()
-                Thread.sleep(2000)
-
-                printInfo(tvSecond)
-                tvSecond.chanelDawn()
-                Thread.sleep(2000)
-            }
+            // останавливаем поток на пару секунд
+            Thread.sleep(2000)
         }
-
     }
 }
-
-fun printInfo(tv : TV) {
-    println("\n${tv.brandArg} ${tv.modelArg} с диагональю: ${tv.diagonalArg} ")
-}
-
