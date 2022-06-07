@@ -1,0 +1,1 @@
+class NoAmmoException : Throwable(message = "В магазине недостаточно патронов!")
