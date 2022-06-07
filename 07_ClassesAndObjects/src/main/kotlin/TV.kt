@@ -1,4 +1,4 @@
-class TV(val brandArg: String, val modelArg: String, val diagonalArg: Double) {
+class TV(private val brandArg: String, private val modelArg: String, private val diagonalArg: Double) {
 
     // состояние работы
     private var power: Boolean
