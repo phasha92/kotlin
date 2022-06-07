@@ -1,19 +1,15 @@
-@file:Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
-
-import kotlin.Boolean as KotlinBoolean
-
 fun main() {
     //Имя
-    val firstName : String?
+    val firstName: String?
 
     //Фамилия
-    val lastName : String?
+    val lastName: String?
 
     //Рост
-    var height : Double?
+    var height: Double?
 
     //Вес
-    val weight : Float?
+    val weight: Float?
 
     //данные
     firstName = "Masha"
@@ -26,14 +22,13 @@ fun main() {
    *"являетесь ли Вы ребенком"
    */
 
-    var isChild : KotlinBoolean
-
+    val isChild = { _height: Double, _weight: Float -> _height < 150.0 || _weight < 40f }
 
     //Информация о человеке
     var info = """$firstName $lastName
 Height: ${height}sm 
 Weight: ${weight}kg
-Is child: ${(height < 150.0 || weight < 40f).also { isChild = it }}"""
+Is child: ${isChild(height, weight)}"""
 
     //Вывод 1
     println("Conclusion #1:\n$info\n")
@@ -45,7 +40,7 @@ Is child: ${(height < 150.0 || weight < 40f).also { isChild = it }}"""
     info = """$firstName $lastName
 Height: ${height}sm 
 Weight: ${weight}kg
-Is child: ${(height < 150.0 || weight < 40f).also { isChild = it }}"""
+Is child: ${isChild(height, weight)}"""
 
     //Вывод 2
     println("Conclusion #2:\n$info\n")
