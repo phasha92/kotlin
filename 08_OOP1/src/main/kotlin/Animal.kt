@@ -1,90 +1,85 @@
 import kotlin.random.Random
 
-abstract class Animal : Atackolable {
+abstract class Animal: Attack {
+    // свойства
+    abstract var energy: Int
+    abstract var weight: Int
+    abstract val maxAge: Int
+    abstract val name: String
+    abstract val type: String
+    private var age = 0
+    private val isTooOld: Boolean
+        get() = age >= maxAge
 
-    var bithing = 0
-    var dethind = 0
+    // функции
+    abstract fun birthAnimal(): Animal
 
-    abstract var energy : Int
-    abstract var weight : Int
-    abstract val maxAge : Int
-    abstract val name : String
-
-    open var age = 0
-
-    abstract val type : String
-
-    private fun isTooOld() : Boolean {
-        return age >= maxAge
+    // описываем максимум общей логики
+    open fun eat() {
+        tryIncrementAge()
+        weight++
+        energy += 3
+        println(this)
     }
 
-    fun sleep(){
-        if (viability()) {
-            energy += 5
-            age++
-            println("$name спит")
-            println(toString())
-        }
+    open fun move() {
+        tryIncrementAge()
+        weight--
+        energy -= 5
+        println(this)
     }
 
-    abstract fun eat()
+    open fun sleep() {
+        energy += 5
+        age++
+        println(this)
+    }
 
-    abstract fun move()
-
-    abstract fun birthAnimal() : Animal
-
-
-    protected fun tryIncrementAge() {
-
+    private fun tryIncrementAge() {
         if (Random.nextBoolean()) {
             age++
             println("возраст увеличен")
         }
     }
 
-    open fun viability() : Boolean {
-        when {
-            isTooOld() -> {
-                println(" $name слишком старый!")
-                return false
-            }
-            weight <= 0 -> {
-                println(" $name слишком слаб")
-                return false
-            }
-            energy <= 0 -> {
-                println(" У $name закончилась энергия")
-
-                return false
-            }
-            else -> return true
-        }
+    fun viability(): Boolean {
+        return if (isTooOld || weight == 0 || energy == 0) {
+            println(" $name не жизнеспособен!")
+            false
+        } else true
     }
 
-    fun getRandomName() : String {
-        val a = arrayOf("Жирный ", "Усталый ", "Бесподобный ", "Боевой ", "Превосходный ", "Вонючий ","Эпический ")
+    // имена, почему бы и нет :)
+    protected fun getRandomName(): String {
+        val a = arrayOf("Жирный ", "Усталый ", "Бесподобный ", "Боевой ", "Превосходный ", "Вонючий ", "Эпический ")
         val b = arrayOf("Пикачу ", "Тапок ", "Сектант ", "Маг ", "Бородач ", "Кирилл ")
         val c = arrayOf("Земли", "Яда", "Дьявола", "Света", "Тьмы")
-        return (a[Random.nextInt(0, a.size)] + b[Random.nextInt(0, b.size)] + c[Random.nextInt(0, c.size)])
+        return a.random() + b.random() + c.random()
     }
 
-    override val damage : Int
-        get() = Random.nextInt(0, 5)
+    override val damage: Int
+        get() = Random.nextInt(1, 6)
 
-    override fun atack(animal : Animal) {
+    override fun attack(animal: Animal) {
         if (viability()) {
             val damage = this.damage
             animal.energy -= damage
-            println("$name атаковал ${animal.name} и нанес $damage урона")
+            println("${this.name} атаковал ${animal.name} и нанес $damage урона")
         }
     }
 
-    override fun toString() : String {
+    override fun toString(): String {
         return """
 Энергия: $energy
 Вес: $weight
 Возраст: $age
         """.trimMargin()
+    }
+
+    companion object {
+        // счетчики
+        var bithing = 0
+        var dethind = 0
     }
 }
 

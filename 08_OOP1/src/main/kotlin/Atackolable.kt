@@ -1,4 +1,5 @@
-interface Atackolable {
-    val damage : Int
-    fun atack(animal : Animal)
+interface Attack {
+    val damage: Int
+    fun attack(animal: Animal)
 }
+// решил поиграться с кодом и добавить интерфейс атаки :)

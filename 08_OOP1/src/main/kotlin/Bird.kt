@@ -3,47 +3,42 @@ import kotlin.random.Random
 class Bird: Animal() {
 
     override val type = "Bird - "
-
-    override var energy = Random.nextInt(3, 6)
+    override var energy: Int = Random.nextInt(6, 10)
+        get() = if (field < 0) 0 else field
     override var weight = Random.nextInt(3, 7)
+        get() = if (field < 0) 0 else field
     override val maxAge = 5
     override val name = type + getRandomName()
 
-    override var age = 0
-
     init {
-        println("новый $name объект создан")
+        println("Появилась птичка $name")
     }
 
     override fun eat() {
         if (viability()) {
-            energy += 3
             println("Птица ($name) ест")
-            tryIncrementAge()
-            weight++
-            println("Энергия: $energy")
-            println("Вес: $weight")
-            println("Возраст: $age")
-
+            super.eat()
         }
     }
 
     override fun move() {
         if (viability()) {
-            energy -= 5
-            weight--
             println("Птица ($name) летит")
-            tryIncrementAge()
-            println("Энергия: $energy")
-            println("Вес: $weight")
-            println("Возраст: $age")
+            super.move()
         }
     }
 
-    override fun birthAnimal() : Bird {
-        val animal = Bird()
-        bithing++
+    override fun sleep() {
+        if (viability()) {
+            println("Птица ($name) спит")
+            super.sleep()
+        }
+    }
+
+    override fun birthAnimal(): Bird {
         println("Птица (${name}) дала потомство! ")
+        bithing++
+        val animal = Bird()
         println("""новое потомство:
         |имя: ${animal.name}
         |энергия: ${animal.energy}
@@ -51,7 +46,4 @@ class Bird: Animal() {
     """.trimMargin())
         return animal
     }
-
-
-
 }

@@ -1,32 +1,16 @@
 import kotlin.random.Random
 
 class NatureReserve {
-     val animalArray = mutableListOf<Animal>() //список животных
+    private val animalArray = mutableListOf<Animal>() //список животных
     private val animalsDeth = mutableListOf<Animal>() //список умерших
-
-    private var bithing = 0 // родилось
-    private var dethind = 0 // отьехало
-
     fun life() {
-        var n : Int
-        do {
-            print("Введите колличество дней : ")
-            n = readLine()?.toIntOrNull() ?: 0
-            if (n <= 0) println("Попробуйте еще раз!")
-        } while (n <= 0)
+        print("Введите количество дней : ")
 
-        animalArray.add(Dog())
-        animalArray.add(Dog())
+        val n = checkNumber(readLine()!!)
 
-        animalArray.add(Bird())
-        animalArray.add(Bird())
-        animalArray.add(Bird())
-        animalArray.add(Bird())
-        animalArray.add(Bird())
-
-        animalArray.add(Fish())
-        animalArray.add(Fish())
-        animalArray.add(Fish())
+        repeat(2) { animalArray.add(Dog()) }
+        repeat(5) { animalArray.add(Bird()) }
+        repeat(3) { animalArray.add(Fish()) }
 
         for (j in 1..n) {
             println("День: $j")
@@ -37,29 +21,25 @@ class NatureReserve {
                     0 -> animalArray[animal].sleep()
                     1 -> animalArray[animal].eat()
                     2 -> animalArray[animal].move()
-                    3 -> {
-                        animalArray.add(animalArray[animal].birthAnimal())
-                        bithing++
-                    }
-                    4 -> animalArray[animal].atack(animalArray[Random.nextInt(0, animalArray.size)])
+                    3 -> animalArray.add(animalArray[animal].birthAnimal())
+                    4 -> animalArray[animal].attack(animalArray[Random.nextInt(0, animalArray.size)])
                 }
                 println()
 
                 Thread.sleep(1000)
 
-                //если животное постарело - вносим в список
-                if (!animalArray[animal].viability()) {
-                    animalsDeth.add(animalArray[animal])
-                    dethind++
-                }
+                //если животное не жизнеспособно - вносим в список
+                if (!animalArray[animal].viability()) animalsDeth.add(animalArray[animal])
             }
             println("""
            Животных было: ${animalArray.size}
            Старые животные: ${animalsDeth.size}
            
            """.trimMargin())
+
             //если список не пуст, то удаляем из массива
             if (animalsDeth.isNotEmpty()) {
+                Animal.dethind += animalsDeth.size
                 animalArray.removeAll(animalsDeth)
                 animalsDeth.clear()
             }
@@ -76,8 +56,19 @@ class NatureReserve {
     private fun statistics() {
         println("""
             статистика за период:
-             родилось : $bithing
-             померло : $dethind
+             родилось : ${Animal.bithing}
+             померло : ${Animal.dethind}
         """.trimIndent())
+    }
+
+    private fun checkNumber(value: String): Int {
+        val x: Int = value.toIntOrNull() ?: return checkNumber("Введи еще раз: ".input())
+        if (x < 1) return checkNumber("Введи еще раз: ".input())
+        return x
+    }
+
+    private fun String.input(): String {
+        print(this)
+        return readLine()!!
     }
 }

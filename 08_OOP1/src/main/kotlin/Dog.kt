@@ -1,49 +1,44 @@
 import kotlin.random.Random
 
-class Dog : Animal() {
+class Dog: Animal() {
 
     override val type = "Dog - "
-
-    override var energy = Random.nextInt(3,6)
-    override var weight = Random.nextInt(3,7)
-    override val maxAge = 5
+    override var energy = Random.nextInt(6, 10)
+        get() = if (field < 0) 0 else field
+    override var weight = Random.nextInt(3, 7)
+        get() = if (field < 0) 0 else field
+    override val maxAge = 7
     override val name = type + getRandomName()
 
-    override var age = 0
-
     init {
-        println("новый $name объект создан")
+        println("Появилась собака $name")
     }
 
     override fun eat() {
         if (viability()) {
-            energy += 3
             println("Собака ($name) ест")
-            tryIncrementAge()
-            weight++
-            println("Энергия: $energy")
-            println("Вес: $weight")
-            println("Возраст: $age")
-
+            super.eat()
         }
     }
 
     override fun move() {
         if (viability()) {
-            energy -= 5
-            weight--
-            println("Собака ($name) бежит")
-            tryIncrementAge()
-            println("Энергия: $energy")
-            println("Вес: $weight")
-            println("Возраст: $age")
+            println("Собака ($name) летит")
+            super.move()
         }
     }
 
-    override fun birthAnimal() : Dog {
+    override fun sleep() {
+        if (viability()) {
+            println("Собака ($name) спит")
+            super.sleep()
+        }
+    }
+
+    override fun birthAnimal(): Dog {
+        println("Собака (${name}) дала потомство! ")
         val animal = Dog()
         bithing++
-        println("Собака (${name}) дала потомство! ")
         println("""новое потомство:
         |имя: ${animal.name}
         |энергия: ${animal.energy}
@@ -51,5 +46,4 @@ class Dog : Animal() {
     """.trimMargin())
         return animal
     }
-
 }
