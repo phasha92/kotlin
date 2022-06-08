@@ -4,7 +4,7 @@ class TV(private val brandArg: String, private val modelArg: String, private val
     private var power: Boolean
 
     // список каналов
-    private var chanelList: Map<Int, String>
+    private val chanelList: Map<Int, String>
 
     // текущий канал
     private var chanelActive: Pair<Int, String>
@@ -21,10 +21,9 @@ class TV(private val brandArg: String, private val modelArg: String, private val
 
     companion object {
         // максимальная громкость
-        private const val maxVolume = 100
-
+        private const val MAX_VOLUME = 100
         // минимальная громкость
-        private const val minVolume = 0
+        private const val MIN_VOLUME = 0
         // функция создания экземпляра
         fun create(name: String, model: String, diagonal: Double): TV = TV(name, model, diagonal)
     }
@@ -49,11 +48,11 @@ class TV(private val brandArg: String, private val modelArg: String, private val
     // функция громкость +
     fun volumeUp(volume: Int) {
         if (power)
-            if (this.volume + volume <= maxVolume) {
+            if (this.volume + volume <= MAX_VOLUME) {
                 this.volume += volume
                 println("Громкость увеличена на : $volume текущая громкость = ${this.volume}")
             } else {
-                this.volume = maxVolume
+                this.volume = MAX_VOLUME
                 println("Достигнута максимальная громкость: ${this.volume}")
             }
         else println("попытка увеличить громкость при выключенном телевизоре...")
@@ -62,11 +61,11 @@ class TV(private val brandArg: String, private val modelArg: String, private val
     // функция громкость -
     fun volumeDawn(volume: Int) {
         if (power)
-            if (this.volume - volume >= minVolume) {
+            if (this.volume - volume >= MIN_VOLUME) {
                 this.volume -= volume
                 println("Громкость уменьшена на: $volume текущая громкость = ${this.volume}")
             } else {
-                this.volume = minVolume
+                this.volume = MIN_VOLUME
                 println("Достигнуто минимальная громкость: ${this.volume}")
             }
         else println("попытка уменьшить громкость при выключенном телевизоре...")
