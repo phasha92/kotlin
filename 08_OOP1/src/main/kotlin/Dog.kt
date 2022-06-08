@@ -15,24 +15,15 @@ class Dog: Animal() {
     }
 
     override fun eat() {
-        if (viability()) {
-            println("Собака ($name) ест")
-            super.eat()
-        }
+        if (viability()) super.eat().run { println("Собака ($name) ест") }
     }
 
     override fun move() {
-        if (viability()) {
-            println("Собака ($name) летит")
-            super.move()
-        }
+        if (viability()) super.move().run { println("Собака ($name) летит") }
     }
 
     override fun sleep() {
-        if (viability()) {
-            println("Собака ($name) спит")
-            super.sleep()
-        }
+        if (viability()) super.sleep().run { println("Собака ($name) спит") }
     }
 
     override fun birthAnimal(): Dog {

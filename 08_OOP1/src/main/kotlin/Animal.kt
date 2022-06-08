@@ -11,6 +11,9 @@ abstract class Animal: Attack {
     private val isTooOld: Boolean
         get() = age >= maxAge
 
+    // чтобы сообщение о жизнеспособности выводилось лишь раз!
+    private var flag = true
+
     // функции
     abstract fun birthAnimal(): Animal
 
@@ -43,8 +46,11 @@ abstract class Animal: Attack {
     }
 
     fun viability(): Boolean {
-        return if (isTooOld || weight == 0 || energy == 0) {
-            println(" $name не жизнеспособен!")
+        return if ((isTooOld || weight == 0 || energy == 0)) {
+            if (flag) {
+                println(" $name не жизнеспособен!")
+                flag = false
+            }
             false
         } else true
     }
@@ -64,7 +70,7 @@ abstract class Animal: Attack {
         if (viability()) {
             val damage = this.damage
             animal.energy -= damage
-            println("${this.name} атаковал ${animal.name} и нанес $damage урона")
+            println("${this.name} атаковал => ${animal.name} и нанес $damage урона")
         }
     }
 
@@ -72,8 +78,7 @@ abstract class Animal: Attack {
         return """
 Энергия: $energy
 Вес: $weight
-Возраст: $age
-        """.trimMargin()
+Возраст: $age""".trimMargin()
     }
 
     companion object {

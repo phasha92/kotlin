@@ -15,24 +15,15 @@ class Bird: Animal() {
     }
 
     override fun eat() {
-        if (viability()) {
-            println("Птица ($name) ест")
-            super.eat()
-        }
+        if (viability()) super.eat().run { println("Птица ($name) ест") }
     }
 
     override fun move() {
-        if (viability()) {
-            println("Птица ($name) летит")
-            super.move()
-        }
+        if (viability()) super.move().run { println("Птица ($name) летит") }
     }
 
     override fun sleep() {
-        if (viability()) {
-            println("Птица ($name) спит")
-            super.sleep()
-        }
+        if (viability()) super.sleep().run { println("Птица ($name) спит") }
     }
 
     override fun birthAnimal(): Bird {
