@@ -1,4 +1,3 @@
-package signature
 
 enum class Alphabet(val ASCII: List<String>) {
     A(listOf("____", "|__|", "|  |")),
