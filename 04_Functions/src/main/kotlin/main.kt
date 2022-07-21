@@ -1,6 +1,6 @@
 fun main() {
     // зашифрованное сообщение
-    val inputText: String = "F2p)v" + '"' + "y233{0->c}ttelciFc"
+    val inputText = "F2p)v\"y233{0->c}ttelciFc"
     // расшифрованное сообщение
     val output: String?
     // соединяем расшифрованное сообщение
@@ -15,30 +15,12 @@ fun main() {
 // первая половина шифра
 fun firstHalfString(str: String): String {
 //выбираем первую половину сообщения
-    var firstHalf: String = str.dropLast(str.length / 2)
-
-    //  var a = { param:String,param2:Int->param.map { char->char + param2 }.joinToString("")}
-    // firstHalf=a(firstHalf,1)
-    // лямбда выражение на память)
-
-    //сдвигаем на 1 символ вправо
-    // firstHalf = shift(firstHalf) { it.map { char -> char + 1 }.joinToString("") }
-    firstHalf = shift(firstHalf) { it + 1 }
-
-    //заменяем 5 на s
-    firstHalf = firstHalf.replace('5', 's')
-
-    //заменяем 4 на u
-    firstHalf = firstHalf.replace('4', 'u')
-
-    //сдвигаем на 3 символа влево
-    //  firstHalf = shift(firstHalf) { it.map { char -> char - 3 }.joinToString("") }
-    firstHalf = shift(firstHalf) { it - 3 }
-    //заменяем 0(Ноль) на o
-    firstHalf = firstHalf.replace('0', 'o')
-
-    //возвращаем функции значение
-    return firstHalf
+    return str.dropLast(str.length / 2)
+        .map { it+1 }.joinToString("")
+        .replace('5', 's')
+        .replace('4', 'u')
+        .map { it -3 }.joinToString ( "" )
+        .replace('0', 'o')
 }
 
 // вторая половина шифра
@@ -56,7 +38,7 @@ fun secongHalfString(str: String): String {
     //заменяем символ подчеркивания на пробел
     secondHalf = secondHalf.replace('_', ' ')
 
-    //возващаем функции значение
+    //возвращаем функции значение
     return secondHalf
 }
 
