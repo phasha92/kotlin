@@ -2,13 +2,11 @@ import kotlinx.coroutines.*
 import java.math.BigInteger
 
 object Fibonacci {
-
     suspend fun take(n: Int): BigInteger {
-        yield()
         return if (n == 0 || n == 1) n.toBigInteger()
         else {
-            var f0 = (0).toBigInteger()
-            var f1 = (1).toBigInteger()
+            var f0 = BigInteger.ZERO
+            var f1 = BigInteger.ONE
             var fSum = f0
             try {
                 withTimeout(5000) {
@@ -16,7 +14,7 @@ object Fibonacci {
                         fSum = f0 + f1
                         f0 = f1
                         f1 = fSum
-                        delay(1)
+                        yield()
                     }
                 }
             } catch (e: TimeoutCancellationException) {

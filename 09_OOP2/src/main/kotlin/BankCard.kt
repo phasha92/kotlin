@@ -1,5 +1,5 @@
 abstract class BankCard {
-    abstract val name : String
+    protected abstract val name : String
     protected abstract var balance : Balance
     abstract fun replenish(value : Double)
     abstract fun pay(value : Double)

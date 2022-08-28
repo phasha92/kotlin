@@ -1,7 +1,8 @@
+import java.util.*
 import kotlin.random.Random
 
 fun main() {
-
+/*
     val cards = mutableListOf<BankCard>()
 
     cards.add(TinkoffCredit(Random.nextDouble(1000.0, 10000.0), 10000.0))
@@ -29,5 +30,19 @@ fun main() {
                 }
             }
         }
-    }
+    }*/
+   /* repeat(5) { println(func(readLine()!!)) }*/
+    val intsList = listOf<Int>(1, 2, 3, 4, 5, 6, 7)
+    for (i in 0..11) println(intsList[i])
 }
+
+fun func(s: String): Boolean {
+    val bras = mapOf('(' to ')', '{' to '}', '[' to ']')
+    val stack = Stack<Char>()
+    s.forEach {
+        if (it in bras.keys) stack.push(it)
+        else if (bras[stack.pop()] != it) return false
+    }
+    return stack.isEmpty()
+}
+//89218915173
