@@ -1,11 +1,11 @@
-class Stack<T> {
+class Stack<T: Ammo> {
     private val stack = mutableListOf<T>()
 
-    fun push(item : T) {
+    fun push(item: T) {
         stack.add(item)
     }
 
-    fun pop() : T? {
+    fun pop(): T? {
         return if (isEmpty())
             null
         else {
@@ -15,7 +15,7 @@ class Stack<T> {
         }
     }
 
-    fun isEmpty() : Boolean {
+    fun isEmpty(): Boolean {
         return stack.isEmpty()
     }
 }
