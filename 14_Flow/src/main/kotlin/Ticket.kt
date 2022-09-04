@@ -1,5 +1,3 @@
-import kotlin.random.Random
-
 class Ticket {
 
     private val ticket = mutableListOf<MutableList<FieldState>>()
@@ -7,23 +5,26 @@ class Ticket {
     init {
         val busy = mutableListOf<Int>()
         var element: Int
-        for (i in 0..2) {
+        repeat(3) { i ->
+            val randomIndex = randomIndex()
             ticket.add(mutableListOf())
-            for (j in 0..4) {
-                do {
-                    element = Random.nextInt(1, 91)
-                    if (element !in busy)
-                        ticket[i].add(FieldState.Number(element))
-                } while (element in busy)
-                busy.add(element)
+            repeat(9) {
+                if (it in randomIndex) {
+                    ticket[i].add(FieldState.Open)
+                } else {
+                    do {
+                        element = it.inc() * 10 - (0..9).random()
+                    } while (element in busy)
+                    ticket[i].add(FieldState.Number(element))
+                    busy.add(element)
+                }
             }
-            for (g in 0..3)
-                ticket[i].add(FieldState.Open)
-            ticket[i].shuffle()
+
         }
     }
 
     fun getTicket() {
+        println("    Билет № ${this.hashCode()}")
         print("----------------------------")
         for (i in 0 until ticket.size) {
             print("\n|")
@@ -38,4 +39,13 @@ class Ticket {
         println("\n----------------------------")
     }
 
+    private fun randomIndex(): List<Int> {
+        val indexList = mutableListOf<Int>()
+        var index: Int
+        do {
+            index = (0..8).random()
+            if (index !in indexList) indexList.add(index)
+        } while (indexList.size < 4)
+        return indexList.toList()
+    }
 }
