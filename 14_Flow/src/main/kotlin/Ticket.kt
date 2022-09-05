@@ -1,6 +1,6 @@
 class Ticket {
 
-    private val ticket = mutableListOf<MutableList<FieldState>>()
+    val ticket = mutableListOf<MutableList<FieldState>>()
 
     init {
         val busy = mutableListOf<Int>()
@@ -19,7 +19,6 @@ class Ticket {
                     busy.add(element)
                 }
             }
-
         }
     }
 
