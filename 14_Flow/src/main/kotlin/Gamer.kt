@@ -1,5 +1,5 @@
 class Gamer(countTicket: Int = 3): Marker {
-    val ticketList = List(countTicket) { Ticket.ticketCreate() }
+    val ticketList = List(countTicket) { Ticket() }
     var status: Status = Status.EXPECTATION
     val gamerNumber: Int
 
@@ -13,8 +13,10 @@ class Gamer(countTicket: Int = 3): Marker {
             repeat(ticketList[it].ticket.size) { i ->
                 repeat(ticketList[it].ticket[i].size) { j ->
                     if (ticketList[it].ticket[i][j] is FieldState.Number)
-                        if (ticketList[it].ticket[i][j].toString() == "$x")
+                        if (ticketList[it].ticket[i][j].toString() == "$x") {
                             ticketList[it].ticket[i][j] = FieldState.Close
+                            return
+                        }
                 }
             }
         }
