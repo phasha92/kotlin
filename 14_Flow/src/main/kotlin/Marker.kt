@@ -1,3 +1,3 @@
 interface Marker {
-    fun mark(x:Int) {}
+    fun mark(x: Int) {}
 }

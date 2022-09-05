@@ -1,8 +1,11 @@
 class Ticket {
 
     val ticket = mutableListOf<MutableList<FieldState>>()
+    private val ticketNumber: Int
 
     init {
+        count++
+        ticketNumber = count
         val busy = mutableListOf<Int>()
         var element: Int
         repeat(3) { i ->
@@ -23,7 +26,7 @@ class Ticket {
     }
 
     fun getTicket() {
-        println("    Билет № ${this.hashCode()}")
+        println("    Билет № $ticketNumber")
         print("----------------------------")
         for (i in 0 until ticket.size) {
             print("\n|")
@@ -46,5 +49,10 @@ class Ticket {
             if (index !in indexList) indexList.add(index)
         } while (indexList.size < 4)
         return indexList.toList()
+    }
+
+    companion object {
+        private var count = 0
+        fun ticketCreate() = Ticket()
     }
 }

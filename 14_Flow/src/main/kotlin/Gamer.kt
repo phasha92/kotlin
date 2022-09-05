@@ -1,6 +1,12 @@
 class Gamer(countTicket: Int = 3): Marker {
-    val ticketList = List(countTicket) { Ticket() }
+    val ticketList = List(countTicket) { Ticket.ticketCreate() }
     var status: Status = Status.EXPECTATION
+    val gamerNumber: Int
+
+    init {
+        countGamers++
+        gamerNumber = countGamers
+    }
 
     override fun mark(x: Int) {
         repeat(ticketList.size) {
@@ -21,12 +27,13 @@ class Gamer(countTicket: Int = 3): Marker {
                     status = Status.WINNER
                     return
                 }
+                mark(x)
             }
-            mark(x)
         }
     }
 
     companion object {
         const val X_COUNT = 15
+        var countGamers = 0
     }
 }

@@ -1,13 +1,20 @@
 fun main() {
-    val g = Gamer()
-    repeat(90){
-        println("=============$it")
-        if (g.status == Status.WINNER){
-            println("ПОБЕДА")
-            return
+    val g = List(3) { Gamer() }
+    repeat(90) {
+        println("=============${it.inc()}")
+        repeat(g.size) { i ->
+            if (g[i].status == Status.WINNER) {
+                println("ПОБЕДА ИГРОКА ${g[i].gamerNumber}")
+                g[i].ticketList.forEach { item -> item.getTicket() }
+                return
+            } else {
+                println("Игрок № ${g[i].gamerNumber}")
+                g[i].look(it)
+                g[i].ticketList.forEach { item ->
+                    item.getTicket()
+                }
+                //Thread.sleep(1000)
+            }
         }
-        g.look(it)
-        g.ticketList.forEach { item -> item.getTicket() }
-        Thread.sleep(1000)
     }
 }
