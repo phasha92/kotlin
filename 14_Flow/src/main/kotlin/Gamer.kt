@@ -8,7 +8,7 @@ class Gamer(countTicket: Int = 3): Marker {
         gamerNumber = countGamers
     }
 
-    override fun mark(x: Int) {
+    override  fun mark(x: Int) {
         repeat(ticketList.size) {
             repeat(ticketList[it].ticket.size) { i ->
                 repeat(ticketList[it].ticket[i].size) { j ->
@@ -17,12 +17,14 @@ class Gamer(countTicket: Int = 3): Marker {
                             ticketList[it].ticket[i][j] = FieldState.Close
                             return
                         }
+
                 }
             }
         }
     }
 
-    fun look(x: Int) {
+     fun look(x: Int) {
+
         if (status == Status.EXPECTATION) {
             repeat(ticketList.size) {
                 if (ticketList[it].ticket.flatten().count { item -> item == FieldState.Close } == X_COUNT) {

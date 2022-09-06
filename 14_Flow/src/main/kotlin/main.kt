@@ -1,20 +1,35 @@
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.asFlow
+
 fun main() {
-    val g = List(3) { Gamer() }
-    repeat(90) {
-        println("=============${it.inc()}")
-        repeat(g.size) { i ->
-            if (g[i].status == Status.WINNER) {
-                println("ПОБЕДА ИГРОКА ${g[i].gamerNumber}")
-                g[i].ticketList.forEach { item -> item.printTicket() }
-                return
-            } else {
-                println("Игрок № ${g[i].gamerNumber}")
-                g[i].look(it)
-                g[i].ticketList.forEach { item ->
-                    item.printTicket()
+    val players = List(3) { Gamer() }
+    var flag = false
+    runBlocking {
+        Generator.flow().collect {
+            println("выпал номер $it")
+            players.forEach { player ->
+                println("player ${player.gamerNumber}")
+                scope.launch {
+                    with(player) {
+                        look(it)
+                        if (this.status == Status.WINNER) {
+                            println("победил игрок $gamerNumber")
+                            flag = true
+                            this@launch.cancel()
+                        } else
+                            ticketList.forEach { item -> item.printTicket() }
+                    }
+                    if (flag) this@runBlocking.cancel()
                 }
-                //Thread.sleep(1000)
+                delay(1)
             }
         }
     }
+    println("end")
+}
+
+val scope = CoroutineScope(Job() + Dispatchers.Default)
+
+object Generator {
+    fun flow() = (1..90).shuffled().asFlow()
 }

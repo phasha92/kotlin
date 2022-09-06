@@ -9,7 +9,7 @@ class Ticket {
         ticket = ticketCreate()
     }
 
-    fun printTicket() {
+     fun printTicket() {
         println("    Билет № $ticketNumber")
         print("----------------------------")
         repeat(ticket.size) { i ->
@@ -23,6 +23,7 @@ class Ticket {
             }
         }
         println("\n----------------------------")
+
     }
 
     companion object {
