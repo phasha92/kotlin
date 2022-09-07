@@ -1,6 +1,6 @@
 class Ticket {
 
-    val ticket : Array<Array<FieldState>>
+    val ticket: Array<Array<FieldState>>
     private val ticketNumber: Int
 
     init {
@@ -9,7 +9,7 @@ class Ticket {
         ticket = ticketCreate()
     }
 
-     fun printTicket() {
+    fun printTicket() {
         println("    Билет № $ticketNumber")
         print("----------------------------")
         repeat(ticket.size) { i ->
@@ -23,7 +23,6 @@ class Ticket {
             }
         }
         println("\n----------------------------")
-
     }
 
     companion object {
@@ -52,6 +51,7 @@ class Ticket {
             }
             return finalTicket.toTypedArray()
         }
+
         private fun randomIndex(): List<Int> {
             val indexList = mutableListOf<Int>()
             var index: Int
