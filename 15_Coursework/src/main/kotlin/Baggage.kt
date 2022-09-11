@@ -4,18 +4,9 @@ class Baggage<T: Product> {
     val isEmpty: Boolean
         get() = products.isEmpty()
 
-    fun push(item: T) {
-        products.add(item)
-    }
+    fun push(item: T) = products.add(item)
 
-    fun pop(): T? {
-        if (products.isNotEmpty()) {
-            val element = products.last()
-            products.removeAt(products.lastIndex)
-            return element
-        }
-        return null
-    }
+    fun pop(): T = products.removeLast()
 
     fun printProductList() = products.let {
         if (!isEmpty) {

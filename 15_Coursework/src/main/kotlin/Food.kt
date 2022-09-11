@@ -1,37 +1,51 @@
 sealed class Food: Product() {
-    data class Tomatoes(val weight: Int = 5, val loadingTime: Long = 1000L): Food() {
+    data class Tomatoes(override val weight: Int = 5, override val loadingTime: Long = 1000): Food() {
         override fun toString() = "Томаты ${weight}кг"
     }
 
-    data class Cucumbers(val weight: Int = 5, val loadingTime: Long = 1000L): Food() {
+    data class Cucumbers(override val weight: Int = 5, override val loadingTime: Long = 1000): Food() {
         override fun toString() = "Огурцы ${weight}кг"
     }
 
-    data class Broccoli(val weight: Int = 5, val loadingTime: Long = 1000L): Food() {
+    data class Broccoli(override val weight: Int = 5, override val loadingTime: Long = 1000L): Food() {
         override fun toString() = "Брокколи ${weight}кг"
     }
 
-    data class Corn(val weight: Int = 5, val loadingTime: Long = 1000L): Food() {
+    data class Corn(override val weight: Int = 1, override val loadingTime: Long = 300): Food() {
         override fun toString() = "Кукуруза ${weight}кг"
     }
 
-    data class Sugar(val weight: Int = 15, val loadingTime: Long = 3000L): Food() {
+    data class Sugar(override val weight: Int = 15, override val loadingTime: Long = 3000): Food() {
         override fun toString() = "Сахар ${weight}кг"
     }
 
-    data class Salt(val weight: Int = 1, val loadingTime: Long = 100L): Food() {
+    data class Salt(override val weight: Int = 1, override val loadingTime: Long = 100): Food() {
         override fun toString() = "Соль ${weight}кг"
     }
 
-    data class Potato(val weight: Int = 10, val loadingTime: Long = 3000L): Food() {
+    data class Potato(override val weight: Int = 10, override val loadingTime: Long = 3000L): Food() {
         override fun toString() = "Картофель ${weight}кг"
     }
 
-    data class Beef(val weight: Int = 3, val loadingTime: Long = 300L): Food() {
+    data class Beef(override val weight: Int = 3, override val loadingTime: Long = 1000): Food() {
         override fun toString() = "Говядина ${weight}кг"
     }
 
-    data class ChickenMeat(val weight: Int = 10, val loadingTime: Long = 2000L): Food() {
+    data class ChickenMeat(override val weight: Int = 10, override val loadingTime: Long = 3000): Food() {
         override fun toString() = "Куриное мясо ${weight}кг"
     }
+
+    companion object {
+        fun randomFood() =
+            listOf(Tomatoes(),
+                Cucumbers(),
+                Broccoli(),
+                Corn(),
+                Sugar(),
+                Salt(),
+                Potato(),
+                Beef(),
+                ChickenMeat()).random()
+    }
+
 }
