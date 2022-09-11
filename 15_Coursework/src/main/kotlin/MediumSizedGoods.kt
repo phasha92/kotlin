@@ -18,4 +18,15 @@ sealed class MediumSizedGoods: Product() {
     data class Notebook(override val weight: Int = 3, override val loadingTime: Long = 3000L): MediumSizedGoods() {
         override fun toString() = "Ноутбук $weight"
     }
+
+    companion object {
+        fun createMediumSizedGoods() =
+            listOf(
+                SystemBlock(),
+                Monitor(),
+                Chair(),
+                TV(),
+                Notebook()
+            ).random()
+    }
 }

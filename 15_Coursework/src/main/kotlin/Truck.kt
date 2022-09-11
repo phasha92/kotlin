@@ -1,5 +1,5 @@
 sealed class Truck {
-    abstract val baggage: Baggage<Product>
+    protected abstract val baggage: Baggage<Product>
     abstract val capacity: Int
 
     data class PassengerCar(override val capacity: Int = 500, override val baggage: Baggage<Product> = Baggage()):
@@ -23,9 +23,14 @@ sealed class Truck {
         }
     }
 
+    fun printProductList() = baggage.printProductList()
+    fun loading(product: Product) = baggage.push(product) //
+    fun unLoading() = baggage.pop() //
+
     companion object {
         fun createBaggage(capacity: Int) {
-            
+
         }
+
     }
 }

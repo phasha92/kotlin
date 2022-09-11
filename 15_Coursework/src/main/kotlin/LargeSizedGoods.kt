@@ -27,4 +27,17 @@ sealed class LargeSizedGoods: Product() {
     data class Locker(override val weight: Int = 10, override val loadingTime: Long = 3000L): LargeSizedGoods() {
         override fun toString() = "Шкаф $weight"
     }
+
+    companion object {
+        fun createLargeSizedGoods() =
+            listOf(
+                Table(),
+                Fridge(),
+                Sofa(),
+                Armchair(),
+                Bed(),
+                AirConditioner(),
+                Locker()
+            ).random()
+    }
 }

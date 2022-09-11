@@ -18,4 +18,15 @@ sealed class SmallSizedGoods: Product() {
     data class Radio(override val weight: Int = 1, override val loadingTime: Long = 300L): SmallSizedGoods() {
         override fun toString() = "Радио приемник $weight"
     }
+
+    companion object {
+        fun createSmallSizedGoods() =
+            listOf(
+                Smartphone(),
+                Fan(),
+                TableLamp(),
+                Dishes(),
+                Radio()
+            ).random()
+    }
 }

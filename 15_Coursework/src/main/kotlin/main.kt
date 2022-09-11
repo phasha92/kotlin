@@ -13,11 +13,11 @@ fun main() {
         t.pop().let {
             println("\nвыгружаем $it")
             Thread.sleep(it.loadingTime)
-            ggg.baggage.push(it)
+            ggg.loading(it)
         }
         t.printProductList()
     }
     println("ggg")
-    ggg.baggage.printProductList()
+    ggg.printProductList()
     ggg.capacity
 }
