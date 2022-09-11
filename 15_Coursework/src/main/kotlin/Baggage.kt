@@ -4,6 +4,9 @@ class Baggage<T: Product> {
     val isEmpty: Boolean
         get() = products.isEmpty()
 
+    val size: Int
+        get() = products.sumOf { it.weight }
+
     fun push(item: T) = products.add(item)
 
     fun pop(): T = products.removeLast()
@@ -16,4 +19,6 @@ class Baggage<T: Product> {
             }
         } else println("Багажник пуст")
     }
+
+
 }

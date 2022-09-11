@@ -1,23 +1,15 @@
+import kotlinx.coroutines.*
+
 fun main() {
-    val t = Baggage<Product>()
-    val ggg = Truck.PassengerCar()
-    println(t.isEmpty)
-    t.push(Food.randomFood())
-    t.push(Food.randomFood())
-    t.push(Food.randomFood())
-    t.push(Food.randomFood())
-    t.push(Food.randomFood())
-    t.push(Food.randomFood())
-    t.printProductList()
-    while (!t.isEmpty){
-        t.pop().let {
-            println("\nвыгружаем $it")
-            Thread.sleep(it.loadingTime)
-            ggg.loading(it)
+    val qqq = Truck.PassengerCar()
+    qqq.printProductList()
+    runBlocking {
+        List(4) { Truck.GazelleCar() }.forEach {
+             launch {
+                it.printProductList()
+                while (true)
+                    it.unLoading()
+            }
         }
-        t.printProductList()
     }
-    println("ggg")
-    ggg.printProductList()
-    ggg.capacity
 }
