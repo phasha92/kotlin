@@ -3,7 +3,7 @@ import kotlinx.coroutines.delay
 sealed class Truck {
     protected abstract val baggage: Baggage<Product>
     protected abstract val capacity: Int
-    protected abstract val serialName: String
+    abstract val serialName: String
 
     data class PassengerCar(override val capacity: Int = 50, override val baggage: Baggage<Product> = Baggage()):
         Truck() {
@@ -43,15 +43,18 @@ sealed class Truck {
 
     }
 
-    suspend fun unLoading(): Product? {
-        if (!baggage.isEmpty) {
+    suspend fun unLoading(): List<Product> {
+        val productList = mutableListOf<Product>()
+
+        while (!baggage.isEmpty) {
             val element = baggage.pop()
             println("\n$serialName")
             println("Выгрузка $element")
+            productList.add(element)
             delay(element.loadingTime)
-            return element
         }
-        return null
+        println("*$serialName закончил выгрузку товаров*")
+        return productList
     }
 
     protected fun createBaggage(capacity: Int) {
@@ -63,19 +66,22 @@ sealed class Truck {
             3 -> SmallSizedGoods.createSmallSizedGoods()
             else -> Food.randomFood()
         }
-
-
+        
         while (true) {
             val newElement = element()
             if (newElement.weight + baggage.size > capacity) break
             baggage.push(newElement)
         }
-        println(baggage.size)
         count++
     }
 
     companion object {
         private var count = 1
+        fun createTruck() = when ((1..3).random()) {
+            1 -> PassengerCar()
+            2 -> GazelleCar()
+            else -> FreightCar()
+        }
     }
 
 }
