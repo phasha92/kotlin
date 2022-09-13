@@ -1,4 +1,4 @@
-class UnloadingPort  {
+class UnloadingPort {
     val portNumber: Int
 
     init {

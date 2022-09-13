@@ -12,7 +12,7 @@ sealed class SmallSizedGoods: Product() {
         override fun toString() = "Настольная лампа"
     }
 
-    data class Dishes(override val weight: Int = 3, override val loadingTime: Long = 10000L): SmallSizedGoods() {
+    data class Dishes(override val weight: Int = 3, override val loadingTime: Long = 1000L): SmallSizedGoods() {
         override fun toString() = "Посуда"
     }
 

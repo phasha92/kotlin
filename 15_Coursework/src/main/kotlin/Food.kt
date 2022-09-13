@@ -46,7 +46,7 @@ sealed class Food: Product() {
                 Salt(),
                 Potato(),
                 Beef(),
-                ChickenMeat()).random()
+                ChickenMeat()
+            ).random()
     }
-
 }

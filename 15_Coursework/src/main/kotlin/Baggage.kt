@@ -4,7 +4,10 @@ class Baggage<T: Product> {
     val isEmpty: Boolean
         get() = products.isEmpty()
 
-    val size: Int
+    val size:Int
+    get() = products.size
+
+    val sizeSum: Int
         get() = products.sumOf { it.weight }
 
     fun push(item: Product) = products.add(item as T)

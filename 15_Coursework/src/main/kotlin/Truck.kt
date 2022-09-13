@@ -1,11 +1,12 @@
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
+import kotlin.random.Random
 
 sealed class Truck {
     protected abstract val baggage: Baggage<Product>
     abstract val capacity: Int
     abstract val serialName: String
     val baggageSize: Int
-        get() = baggage.size
+        get() = baggage.sizeSum
 
     data class PassengerCar(
         override val capacity: Int = 50,
@@ -57,7 +58,6 @@ sealed class Truck {
         println("Загружает $product")
         delay(product.loadingTime)
         baggage.push(product)
-
     }
 
     suspend fun unLoading(): List<Product> {
@@ -79,10 +79,9 @@ sealed class Truck {
 
         fun createTruck(isEmpty: Boolean): Truck {
             return if (isEmpty)
-                when ((1..3).random()) {
-                    1 -> PassengerCar(baggage = Baggage())
-                    2 -> GazelleCar(baggage = Baggage())
-                    else -> FreightCar(baggage = Baggage())
+                when (Random.nextBoolean()) {
+                    true -> PassengerCar(baggage = Baggage())
+                    else -> GazelleCar(baggage = Baggage())
                 }
             else
                 when ((1..3).random()) {
@@ -104,7 +103,7 @@ sealed class Truck {
             }
             while (true) {
                 val newElement = element()
-                if (newElement.weight + newBaggage.size > capacity) break
+                if (newElement.weight + newBaggage.sizeSum > capacity) break
                 newBaggage.push(newElement)
             }
             return newBaggage

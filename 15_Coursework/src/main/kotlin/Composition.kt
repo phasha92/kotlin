@@ -1,4 +1,7 @@
+import kotlinx.coroutines.sync.Mutex
+
 object Composition {
+    val mutex = Mutex()
     val storage =
         listOf(
             Baggage<Food>(),
@@ -10,7 +13,7 @@ object Composition {
     fun printStorageList() {
         println("На складе: ")
         storage.forEachIndexed { index, baggage ->
-        println("Склад № ${index.inc()}")
+            println("Склад № ${index.inc()}")
             baggage.printProductList()
         }
     }
