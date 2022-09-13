@@ -3,27 +3,47 @@ import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.produce
 
 @ExperimentalCoroutinesApi
-fun main() {
-    runBlocking {
-        val producer = generator()
-        repeat(5) { launchProcessor(it, producer) }
-        delay(555500)
+suspend fun main() {
+    val scope = CoroutineScope(Job() + Dispatchers.Default)
+    val a = List(3) { UnloadingPort() }
+    val b = List(5) { LoadingPort() }
+    val job = scope.launch {
+
+        val producer = generator(time = 6000)
+        a.forEach {
+            launchProcessor(it, producer)
+        }
+        val pro = generator(true)
+        b.forEach {
+            launchProcessor2(it,pro)
+        }
+        delay(100000000)
+        Composition.printStorageList()
         producer.cancel()
     }
+    job.join()
 }
 
 @ExperimentalCoroutinesApi
-fun CoroutineScope.generator() = produce {
+fun CoroutineScope.generator(isEmpty: Boolean = false, time:Long=1) = produce {
     while (isActive) {
-        send(Truck.createTruck())
-        delay(6000)
+        send(Truck.createTruck(isEmpty))
+        delay(time)
     }
 }
 
-fun CoroutineScope.launchProcessor(id: Int, channel: ReceiveChannel<Truck>) = launch {
+fun CoroutineScope.launchProcessor(id: UnloadingPort, channel: ReceiveChannel<Truck>) = launch {
     for (t in channel) {
         t.printProductList()
-        println("processor $id received ${t.serialName}")
-        t.unLoading()
+        println("Разгрузочный порт ${id.portNumber} принял транспорт: ${t.serialName}")
+        id.loadingInComposition(t)
+    }
+}
+
+fun CoroutineScope.launchProcessor2(id: LoadingPort, channel: ReceiveChannel<Truck>) = launch {
+    for (t in channel) {
+        t.printProductList()
+        println("Загрузочный порт ${id.portNumber} принял транспорт: ${t.serialName}")
+        id.unloadingFromComposition(t)
     }
 }

@@ -1,4 +1,5 @@
 sealed class Food: Product() {
+    override fun toString() = "Продукты питания"
     data class Tomatoes(override val weight: Int = 5, override val loadingTime: Long = 1000): Food() {
         override fun toString() = "Томаты ${weight}кг"
     }

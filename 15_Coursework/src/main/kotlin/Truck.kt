@@ -2,33 +2,48 @@ import kotlinx.coroutines.delay
 
 sealed class Truck {
     protected abstract val baggage: Baggage<Product>
-    protected abstract val capacity: Int
+    abstract val capacity: Int
     abstract val serialName: String
+    val baggageSize: Int
+        get() = baggage.size
 
-    data class PassengerCar(override val capacity: Int = 50, override val baggage: Baggage<Product> = Baggage()):
+    data class PassengerCar(
+        override val capacity: Int = 50,
+        override val baggage: Baggage<Product> = createBaggage(capacity),
+    ):
         Truck() {
-        override val serialName: String = "Легковой автомобиль №$count"
+        override val serialName: String
 
         init {
-            createBaggage(capacity)
+            count++
+            serialName = "Легковой автомобиль №$count"
         }
     }
 
-    data class GazelleCar(override val capacity: Int = 150, override val baggage: Baggage<Product> = Baggage()):
+
+    data class GazelleCar(
+        override val capacity: Int = 150,
+        override val baggage: Baggage<Product> = createBaggage(capacity),
+    ):
         Truck() {
-        override val serialName: String = "Газель №$count"
+        override val serialName: String
 
         init {
-            createBaggage(capacity)
+            count++
+            serialName = "Газель №$count"
         }
     }
 
-    data class FreightCar(override val capacity: Int = 300, override val baggage: Baggage<Product> = Baggage()):
+    data class FreightCar(
+        override val capacity: Int = 300,
+        override val baggage: Baggage<Product> = createBaggage(capacity),
+    ):
         Truck() {
-        override val serialName: String = "Грузовик №$count"
+        override val serialName: String
 
         init {
-            createBaggage(capacity)
+            count++
+            serialName = "Грузовик №$count"
         }
     }
 
@@ -38,6 +53,8 @@ sealed class Truck {
     }
 
     suspend fun loading(product: Product) {
+        println("\n$serialName")
+        println("Загружает $product")
         delay(product.loadingTime)
         baggage.push(product)
 
@@ -45,11 +62,10 @@ sealed class Truck {
 
     suspend fun unLoading(): List<Product> {
         val productList = mutableListOf<Product>()
-
         while (!baggage.isEmpty) {
             val element = baggage.pop()
             println("\n$serialName")
-            println("Выгрузка $element")
+            println("Выгружает $element")
             productList.add(element)
             delay(element.loadingTime)
         }
@@ -57,31 +73,41 @@ sealed class Truck {
         return productList
     }
 
-    protected fun createBaggage(capacity: Int) {
-
-        val randomChoise = (1..4).random()
-        fun element(): Product = when (randomChoise) {
-            1 -> LargeSizedGoods.createLargeSizedGoods()
-            2 -> MediumSizedGoods.createMediumSizedGoods()
-            3 -> SmallSizedGoods.createSmallSizedGoods()
-            else -> Food.randomFood()
-        }
-        
-        while (true) {
-            val newElement = element()
-            if (newElement.weight + baggage.size > capacity) break
-            baggage.push(newElement)
-        }
-        count++
-    }
 
     companion object {
-        private var count = 1
-        fun createTruck() = when ((1..3).random()) {
-            1 -> PassengerCar()
-            2 -> GazelleCar()
-            else -> FreightCar()
+        private var count = 0
+
+        fun createTruck(isEmpty: Boolean): Truck {
+            return if (isEmpty)
+                when ((1..3).random()) {
+                    1 -> PassengerCar(baggage = Baggage())
+                    2 -> GazelleCar(baggage = Baggage())
+                    else -> FreightCar(baggage = Baggage())
+                }
+            else
+                when ((1..3).random()) {
+                    1 -> PassengerCar()
+                    2 -> GazelleCar()
+                    else -> FreightCar()
+                }
+        }
+
+        protected fun createBaggage(capacity: Int): Baggage<Product> {
+            val newBaggage = Baggage<Product>()
+            val randomChoise = (1..4).random()
+
+            fun element(): Product = when (randomChoise) {
+                1 -> LargeSizedGoods.createLargeSizedGoods()
+                2 -> MediumSizedGoods.createMediumSizedGoods()
+                3 -> SmallSizedGoods.createSmallSizedGoods()
+                else -> Food.randomFood()
+            }
+            while (true) {
+                val newElement = element()
+                if (newElement.weight + newBaggage.size > capacity) break
+                newBaggage.push(newElement)
+            }
+            return newBaggage
         }
     }
-
 }

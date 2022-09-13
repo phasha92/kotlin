@@ -7,13 +7,13 @@ class Baggage<T: Product> {
     val size: Int
         get() = products.sumOf { it.weight }
 
-    fun push(item: T) = products.add(item)
+    fun push(item: Product) = products.add(item as T)
 
     fun pop(): T = products.removeLast()
 
     fun printProductList() = products.let {
         if (!isEmpty) {
-            println("Список продуктов:")
+            println("Список товаров :")
             it.groupingBy { item -> item }.eachCount().map { (k, v) -> "$k : ${v}шт" }.forEach { product ->
                 println(product)
             }

@@ -1,4 +1,5 @@
 sealed class LargeSizedGoods: Product() {
+    override fun toString() = "Крупный товар"
     data class Table(override val weight: Int = 10, override val loadingTime: Long = 3000L): LargeSizedGoods() {
         override fun toString() = "Стол"
     }
