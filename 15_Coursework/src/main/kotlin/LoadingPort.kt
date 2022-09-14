@@ -16,9 +16,8 @@ class LoadingPort {
         println("Порт $portNumber отгружает из склада в ${truck.serialName}")
         var flag = false
         var type = completeStock
-
-        Composition.mutex.withLock {
-            while (coroutineContext.isActive) {
+        while (coroutineContext.isActive) {
+            Composition.mutex.withLock {
                 if (!Composition.storage[type].isEmpty) {
                     val newElement = Composition.storage[type].pop()
                     if (newElement.weight + truck.baggageSize > truck.capacity) {
@@ -31,8 +30,8 @@ class LoadingPort {
                     truck.loading(newElement)
                 }
                 if (truck.baggageSize == 0) type = completeStock
-                if (flag) break
             }
+            if (flag) break
         }
     }
 

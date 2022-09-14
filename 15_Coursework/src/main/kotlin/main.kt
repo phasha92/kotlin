@@ -15,14 +15,14 @@ suspend fun main() {
                 launchProcessor2(it, pro)
             }
         }
-        val producer = generator(time = 60000)
+        val producer = generator(time = 6000)
         val admission = launch {
 
             unloadingPorts.forEach {
                 launchProcessor(it, producer)
             }
         }
-        delay(900000)
+        delay(3600000)
         Composition.printStorageList()
         pro.cancel()
         producer.cancel()
