@@ -6,7 +6,7 @@ sealed class Truck {
     abstract val capacity: Int
     abstract val serialName: String
     val baggageSize: Int
-        get() = baggage.sizeSum
+        get() = baggage.weightSum
 
     data class PassengerCar(
         override val capacity: Int = 50,
@@ -103,7 +103,7 @@ sealed class Truck {
             }
             while (true) {
                 val newElement = element()
-                if (newElement.weight + newBaggage.sizeSum > capacity) break
+                if (newElement.weight + newBaggage.weightSum > capacity) break
                 newBaggage.push(newElement)
             }
             return newBaggage

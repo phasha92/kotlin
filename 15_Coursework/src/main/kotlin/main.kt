@@ -22,11 +22,24 @@ suspend fun main() {
                 launchProcessor(it, producer)
             }
         }
-        delay(100000000)
+        delay(900000)
         Composition.printStorageList()
         pro.cancel()
         producer.cancel()
-        joinAll(admission, sending)
+        sending.cancel()
+        admission.cancel()
+        Composition.truckIn.let {
+            println("\nПрибывший транспорт: ")
+            it.forEach { item ->
+                println(item.serialName)
+            }
+        }
+        Composition.truckOut.let {
+            println("\nОтправленный транспорт: ")
+            it.forEach { item ->
+                println(item.serialName)
+            }
+        }
     }
     job.join()
 }

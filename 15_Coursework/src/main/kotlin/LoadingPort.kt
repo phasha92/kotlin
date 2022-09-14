@@ -1,5 +1,6 @@
-import kotlinx.coroutines.*
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.sync.withLock
+import kotlin.coroutines.coroutineContext
 
 class LoadingPort {
     val portNumber: Int
@@ -13,23 +14,26 @@ class LoadingPort {
 
     suspend fun unloadingFromComposition(truck: Truck) {
         println("Порт $portNumber отгружает из склада в ${truck.serialName}")
+        var flag = false
+        var type = completeStock
+
         Composition.mutex.withLock {
-            val type = completeStock
-            while (true) {
-                yield()
+            while (coroutineContext.isActive) {
                 if (!Composition.storage[type].isEmpty) {
                     val newElement = Composition.storage[type].pop()
                     if (newElement.weight + truck.baggageSize > truck.capacity) {
                         Composition.storage[type].push(newElement)
-                        break
+                        println("*Транспорт ${truck.serialName} выехал*")
+                        println("Порт загрузки $portNumber освободился")
+                        flag = true
+                        Composition.truckOut.add(truck)
                     }
                     truck.loading(newElement)
                 }
+                if (truck.baggageSize == 0) type = completeStock
+                if (flag) break
             }
         }
-        println("*Транспорт ${truck.serialName} выехал*")
-        truck.printProductList()
-        println("Порт загрузки $portNumber освободился")
     }
 
     companion object {

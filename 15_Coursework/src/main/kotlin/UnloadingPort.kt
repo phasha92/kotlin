@@ -16,6 +16,7 @@ class UnloadingPort {
                 is LargeSizedGoods -> Composition.storage[3].push(it)
             }
         }
+        Composition.truckIn.add(truck)
         println("Порт приема $portNumber освободился")
     }
 

@@ -1,35 +1,84 @@
 sealed class LargeSizedGoods: Product() {
-    override fun toString() = "Крупный товар"
     data class Table(override val weight: Int = 10, override val loadingTime: Long = 3000L): LargeSizedGoods() {
-        override fun toString() = "Стол"
+        private val productNumber: Int
+
+        init {
+            count++
+            productNumber = count
+        }
+
+        override fun toString() = "Стол #$productNumber"
     }
 
     data class Fridge(override val weight: Int = 30, override val loadingTime: Long = 30000L): LargeSizedGoods() {
-        override fun toString() = "Холодильник"
+        private val productNumber: Int
+
+        init {
+            count++
+            productNumber = count
+        }
+
+        override fun toString() = "Холодильник #$productNumber"
     }
 
     data class Sofa(override val weight: Int = 25, override val loadingTime: Long = 25000L): LargeSizedGoods() {
-        override fun toString() = "Диван"
+        private val productNumber: Int
+
+        init {
+            count++
+            productNumber = count
+        }
+
+        override fun toString() = "Диван #$productNumber"
     }
 
     data class Armchair(override val weight: Int = 10, override val loadingTime: Long = 3000L): LargeSizedGoods() {
-        override fun toString() = "Кресло"
+        private val productNumber: Int
+
+        init {
+            count++
+            productNumber = count
+        }
+
+        override fun toString() = "Кресло #$productNumber"
     }
 
     data class Bed(override val weight: Int = 15, override val loadingTime: Long = 5000L): LargeSizedGoods() {
-        override fun toString() = "Кровать"
+        private val productNumber: Int
+
+        init {
+            count++
+            productNumber = count
+        }
+
+        override fun toString() = "Кровать #$productNumber"
     }
 
     data class AirConditioner(override val weight: Int = 10, override val loadingTime: Long = 3000L):
         LargeSizedGoods() {
-        override fun toString() = "Кондиционер"
+        private val productNumber: Int
+
+        init {
+            count++
+            productNumber = count
+        }
+
+        override fun toString() = "Кондиционер #$productNumber"
     }
 
     data class Locker(override val weight: Int = 10, override val loadingTime: Long = 3000L): LargeSizedGoods() {
-        override fun toString() = "Шкаф"
+        private val productNumber: Int
+
+        init {
+            count++
+            productNumber = count
+        }
+
+        override fun toString() = "Шкаф #$productNumber"
     }
 
     companion object {
+        private var count = 0
         fun createLargeSizedGoods() =
             listOf(
                 Table(),
