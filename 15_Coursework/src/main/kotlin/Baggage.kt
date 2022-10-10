@@ -17,7 +17,9 @@ class Baggage<T: Product> {
     fun printProductList() = products.let {
         if (!isEmpty) {
             println("Список товаров :")
-            it.groupingBy { item -> item }.eachCount().map { (k, v) -> "$k : ${v}шт" }.forEach { product ->
+            it.groupingBy { item -> item }.eachCount().map { (k, v) ->
+                "${k.toString().substringBefore("#")} : ${v}шт"
+            }.forEach { product ->
                 println(product)
             }
         } else println("Пусто")

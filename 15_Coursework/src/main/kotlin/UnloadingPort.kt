@@ -1,10 +1,5 @@
 class UnloadingPort {
-    val portNumber: Int
-
-    init {
-        count++
-        portNumber = count
-    }
+    val portNumber: Int = ++count
 
     suspend fun loadingInComposition(truck: Truck) {
         println("Склад $portNumber принимает : ${truck.serialName} ")

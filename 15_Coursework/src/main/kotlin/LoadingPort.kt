@@ -3,14 +3,9 @@ import kotlinx.coroutines.sync.withLock
 import kotlin.coroutines.coroutineContext
 
 class LoadingPort {
-    val portNumber: Int
+    val portNumber: Int = ++count
     private val completeStock: Int
         get() = Composition.storage.indexOf(Composition.storage.maxByOrNull { it.size })
-
-    init {
-        count++
-        portNumber = count
-    }
 
     suspend fun unloadingFromComposition(truck: Truck) {
         println("Порт $portNumber отгружает из склада в ${truck.serialName}")

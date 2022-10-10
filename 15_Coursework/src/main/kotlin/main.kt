@@ -15,7 +15,7 @@ suspend fun main() {
                 launchProcessor2(it, pro)
             }
         }
-        val producer = generator(time = 6000)
+        val producer = generator(time = 120000)
         val admission = launch {
 
             unloadingPorts.forEach {

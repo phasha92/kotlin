@@ -7,45 +7,25 @@ sealed class Truck {
     abstract val serialName: String
     val baggageSize: Int
         get() = baggage.weightSum
-
     data class PassengerCar(
         override val capacity: Int = 50,
         override val baggage: Baggage<Product> = createBaggage(capacity),
-    ):
-        Truck() {
-        override val serialName: String
-
-        init {
-            count++
-            serialName = "Легковой автомобиль №$count"
-        }
+    ): Truck() {
+        override val serialName: String = "Легковой автомобиль №${++count}"
     }
-
 
     data class GazelleCar(
         override val capacity: Int = 150,
         override val baggage: Baggage<Product> = createBaggage(capacity),
-    ):
-        Truck() {
-        override val serialName: String
-
-        init {
-            count++
-            serialName = "Газель №$count"
-        }
+    ): Truck() {
+        override val serialName: String = "Газель №${++count}"
     }
 
     data class FreightCar(
         override val capacity: Int = 300,
         override val baggage: Baggage<Product> = createBaggage(capacity),
-    ):
-        Truck() {
-        override val serialName: String
-
-        init {
-            count++
-            serialName = "Грузовик №$count"
-        }
+    ): Truck() {
+        override val serialName: String = "Грузовик №${++count}"
     }
 
     fun printProductList() {
@@ -73,10 +53,8 @@ sealed class Truck {
         return productList
     }
 
-
     companion object {
         private var count = 0
-
         fun createTruck(isEmpty: Boolean): Truck {
             return if (isEmpty)
                 when (Random.nextBoolean()) {
@@ -94,7 +72,6 @@ sealed class Truck {
         protected fun createBaggage(capacity: Int): Baggage<Product> {
             val newBaggage = Baggage<Product>()
             val randomChoise = (1..4).random()
-
             fun element(): Product = when (randomChoise) {
                 1 -> LargeSizedGoods.createLargeSizedGoods()
                 2 -> MediumSizedGoods.createMediumSizedGoods()
