@@ -4,28 +4,27 @@ import kotlinx.coroutines.channels.produce
 
 @ExperimentalCoroutinesApi
 suspend fun main() {
-    val scope = CoroutineScope(Job() + Dispatchers.Default)
+    val scope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
     val unloadingPorts = List(3) { UnloadingPort() }
     val loadingPorts = List(5) { LoadingPort() }
 
     val job = scope.launch {
-        val pro = generator(true)
+        val trucksIsEmpty = generator(true)
         val sending = launch {
             loadingPorts.forEach {
-                launchProcessor2(it, pro)
+                launchProcessor2(it, trucksIsEmpty)
             }
         }
-        val producer = generator(time = 120000)
+        val trucksIsFool = generator(time = 60000)
         val admission = launch {
-
             unloadingPorts.forEach {
-                launchProcessor(it, producer)
+                launchProcessor(it, trucksIsFool)
             }
         }
         delay(3600000)
         Composition.printStorageList()
-        pro.cancel()
-        producer.cancel()
+        trucksIsEmpty.cancel()
+        trucksIsFool.cancel()
         sending.cancel()
         admission.cancel()
         Composition.truckIn.let {
